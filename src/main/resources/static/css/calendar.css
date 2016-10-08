@@ -1,0 +1,82 @@
+* {
+	font-family: "Times New Roman";
+}
+table {
+	border: 0px solid black;
+	border-collapse: collapse;
+	padding: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+th , td  {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+table tr:nth-child(odd) {
+	background-color: #ffffff;
+}
+table tr:nth-child(even) {
+	background-color: #ffffff;
+}
+.noBorder {
+	border: 0px;
+}
+.left {
+	text-align:left;
+}
+.right {
+	text-align:right;
+}
+.center {
+	margin:auto;
+}
+.weekNumber {
+	color:red;
+	text-align:top;
+	font-size: 20px;
+	width:30px;
+	height:100px;
+}
+.weekNumberHeader {
+	color:red;
+	width:30px;
+	height:10px;
+}
+.calendar {
+	height:100px;
+	width:100px;
+}
+.leftButton {
+	text-align:left;
+	border: 0px;
+}
+.rightButton {
+	text-align:right;
+	border: 0px;
+}
+.date {
+	border: 0px;
+	text-align:center;
+	font-size: 32px;
+	color: red
+}
+.header {
+	border: 0px;
+	font-size: 18px;
+}
+.dayNumber {
+	font-size: 32px;        
+}
+.sunday {
+	color:red;
+}
+.arrowImage {
+	width:30px;
+	height:30px;
+}
+#topDiv {
+	margin-top: 100px;
+}

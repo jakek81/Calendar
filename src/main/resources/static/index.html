@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calendar</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="/js/app.js"></script>
+        <script src="/js/controller.js"></script>
+        <link rel="stylesheet" href="/css/calendar.css">
+    </head>
+    <body>        
+        <div id="topDiv" ng-app="myApp" ng-controller="controller" class="ng-hide" ng-show="isVisible">
+            <table class="center">
+                <tr>
+                    <td class="leftButton"><a href=""><img class="arrowImage" ng-src="/img/left_arrow.png" ng-click="prevClicked()"></a></td>
+                    <td class="date" colspan="6">{{ date.monthName}}, {{ date.year}}</td>
+                    <td class="rightButton"><a href=""><img class="arrowImage" ng-src="/img/right_arrow.png" ng-click="nextClicked()"></a></td>
+                </tr>
+                <tr>
+                    <td class="header weekNumberHeader">Vk</td>
+                    <td class="header">Maanantai</td>
+                    <td class="header">Tiistai</td>
+                    <td class="header">Keskiviikko</td>
+                    <td class="header">Tosrtai</td>
+                    <td class="header">Perjantai</td>
+                    <td class="header">Lauantai</td>
+                    <td class="header">Sunnuntai</td>
+                </tr>
+                <tr class="calendar" ng-repeat="week in calendar">
+                    <td valign="top" class="weekNumber"><div>{{week.week}}</div></td>
+                    <td valign="top" class="calendar"><div class="dayNumber">{{week.days[0]}}</div><div>{{week.notes[0]}}</div></td>
+                    <td valign="top" class="calendar"><div class="dayNumber">{{week.days[1]}}</div><div>{{week.notes[1]}}</div></td>
+                    <td valign="top" class="calendar"><div class="dayNumber">{{week.days[2]}}</div><div>{{week.notes[2]}}</div></td>
+                    <td valign="top" class="calendar"><div class="dayNumber">{{week.days[3]}}</div><div>{{week.notes[3]}}</div></td>
+                    <td valign="top" class="calendar"><div class="dayNumber">{{week.days[4]}}</div><div>{{week.notes[4]}}</div></td>
+                    <td valign="top" class="calendar"><div class="dayNumber">{{week.days[5]}}</div><div>{{week.notes[5]}}</div></td>
+                    <td valign="top" class="calendar sunday"><div class="dayNumber">{{week.days[6]}}</div><div>{{week.notes[6]}}</div></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+
