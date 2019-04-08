@@ -1,5 +1,5 @@
 app.controller('controller', function ($scope, $http) {
-    $http.get("/rest?month=current")
+    $http.get("/monthNotes")
             .then(function (response) {
                 if (isValidResponse(response)) {
                     $scope = createCalendar($scope, response);
@@ -10,7 +10,7 @@ app.controller('controller', function ($scope, $http) {
     $scope.nextClicked = function () {
         var year = $scope.date.year;
         var month = $scope.date.month;
-        var monthTxt = '';
+
         if (month == 12) {
             year = year + 1;
             month = 1;
@@ -18,24 +18,13 @@ app.controller('controller', function ($scope, $http) {
             month = month + 1;
         }
 
-        if (month < 10)
-            monthTxt = '0' + month.toString();
-        else
-            monthTxt = month.toString();
-        var dateTxt = year + monthTxt;
-
-        $http.get("/rest?month=" + dateTxt)
-                .then(function (response) {
-                    if (isValidResponse(response)) {
-                        $scope = createCalendar($scope, response);
-                    }
-                });
+        getMonthNotes($http, $scope, year, month);
     }
 
     $scope.prevClicked = function () {
         var year = $scope.date.year;
         var month = $scope.date.month;
-        var monthTxt = '';
+
         if (month == 1) {
             year = year - 1;
             month = 12;
@@ -43,22 +32,19 @@ app.controller('controller', function ($scope, $http) {
             month = month - 1;
         }
 
-        if (month < 10)
-            monthTxt = '0' + month.toString();
-        else
-            monthTxt = month.toString();
-        var dateTxt = year + monthTxt;
-
-        $http.get("/rest?month=" + dateTxt)
-                .then(function (response) {
-                    if (isValidResponse(response)) {
-                        $scope = createCalendar($scope, response);
-                    }
-                });
+        getMonthNotes($http, $scope, year, month);
     }
 
-
 });
+
+function getMonthNotes($http, $scope, year, month) {
+    $http.get("/monthNotes?year=" + year + "&month=" + month)
+            .then(function (response) {
+                if (isValidResponse(response)) {
+                    $scope = createCalendar($scope, response);
+                }
+            });
+}
 
 function isValidResponse(response) {
     if (typeof response.data.year === 'undefined')
@@ -86,12 +72,15 @@ function createCalendar($scope, response) {
     var firstDay = response.data.firstDay;
     var numberOfDays = response.data.numberOfDays;
     var weeks = Math.ceil((firstDay + numberOfDays) / 7);
+
     for (var i = 0; i < weeks; i++) {
         var weekNumber = response.data.weeks[i];
         var days = Array(7);
         var notes = Array(7);
+
         for (var j = 0; j < 7; j++) {
             var day = i * 7 + j - firstDay + 1;
+
             if (day > 0 && day <= numberOfDays) {
                 days[j] = day;
                 notes[j] = getNote(response.data.notes, day);

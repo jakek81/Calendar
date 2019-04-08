@@ -1,29 +1,33 @@
 package com.gensitive.model;
 
+import com.gensitive.dto.NoteDto;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoteJson {
+public class MonthNotes {
 
-    private final List notes;
-    private final List weeks;
+    private final List<NoteDto> notes;
+    private final List<Integer> weeks;
     private final int firstDay;
     private final int numberOfDays;
     private final String monthName;
     private final int month;
     private final int year;
 
-    public NoteJson(List notes, List weeks, int firstDay, int numberOfDays, String monthName, int month, int year) {
-        this.notes = new ArrayList(notes);
-        this.weeks = new ArrayList(weeks);
+    public MonthNotes(List<Note> notes, List weeks, int firstDay, int numberOfDays, String monthName, int month, int year) {
+        this.weeks = weeks;
         this.firstDay = firstDay;
         this.numberOfDays = numberOfDays;
         this.monthName = monthName;
         this.month = month;
         this.year = year;
+
+        this.notes = new ArrayList<>();
+        notes.stream().forEach(note -> this.notes.add(new NoteDto(note.getNote(), note.getNoteDate())));
     }
 
-    public List getNotes() {
+    public List<NoteDto> getNotes() {
         return notes;
     }
 
@@ -47,7 +51,7 @@ public class NoteJson {
         return year;
     }
 
-    public List getWeeks() {
+    public List<Integer> getWeeks() {
         return weeks;
     }
 

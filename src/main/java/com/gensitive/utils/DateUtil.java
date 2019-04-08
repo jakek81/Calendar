@@ -18,14 +18,9 @@ public class DateUtil {
         return rightNow.get(Calendar.YEAR);
     }
 
-    public static int getDay() {
-        Calendar rightNow = Calendar.getInstance();
-        return rightNow.get(Calendar.DAY_OF_MONTH);
-    }
-
     public static int getLastDayInMonth(int year, int month) {
-        Calendar mycal = new GregorianCalendar(year, month, 1);
-        return mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        Calendar calendar = new GregorianCalendar(year, month, 1);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     public static int getLastDayInThisMonth() {
@@ -39,8 +34,8 @@ public class DateUtil {
         int month = rightNow.get(Calendar.MONTH);
         int day = rightNow.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        Calendar mycal = new GregorianCalendar(year, month, day);
-        return mycal.getTime();
+        Calendar calendar = new GregorianCalendar(year, month, day);
+        return calendar.getTime();
     }
 
     public static Date getFirstDateInThisMonth() {
@@ -49,26 +44,25 @@ public class DateUtil {
         int month = rightNow.get(Calendar.MONTH);
         int day = 1;
 
-        Calendar mycal = new GregorianCalendar(year, month, day);
-        return mycal.getTime();
+        Calendar calendar = new GregorianCalendar(year, month, day);
+        return calendar.getTime();
     }
 
     public static Date getLastDateInMonth(int year, int month) {
-        Calendar mycal1 = new GregorianCalendar(year, month, 1);
-        int day = mycal1.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int day = new GregorianCalendar(year, month, 1).getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        Calendar mycal2 = new GregorianCalendar(year, month, day);
-        return mycal2.getTime();
+        Calendar calendar = new GregorianCalendar(year, month, day);
+        return calendar.getTime();
     }
 
     public static Date getFirstDateInMonth(int year, int month) {
-        Calendar mycal = new GregorianCalendar(year, month, 1);
-        return mycal.getTime();
+        Calendar calendar = new GregorianCalendar(year, month, 1);
+        return calendar.getTime();
     }
 
     public static int getWeekdayOfFirstDayInMonth(int year, int month) {
-        Calendar mycal = new GregorianCalendar(year, month, 1);
-        int weekDay = mycal.get(Calendar.DAY_OF_WEEK) - 2;
+        Calendar calendar = new GregorianCalendar(year, month, 1);
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 2;
         if (weekDay == -1) {
             weekDay = 6;
         }
@@ -81,11 +75,13 @@ public class DateUtil {
         int month = rightNow.get(Calendar.MONTH);
         int day = 1;
 
-        Calendar mycal = new GregorianCalendar(year, month, day);
-        int weekDay = mycal.get(Calendar.DAY_OF_WEEK) - 2;
+        Calendar calendar = new GregorianCalendar(year, month, day);
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+
         if (weekDay == -1) {
             weekDay = 6;
         }
+
         return weekDay;
     }
 
@@ -125,14 +121,14 @@ public class DateUtil {
         return (getMonthName(month));
     }
 
-    public static List getWeeksOfThisMonth() {
+    public static List<Integer> getWeeksOfThisMonth() {
         Calendar rightNow = Calendar.getInstance();
         int year = rightNow.get(Calendar.YEAR);
         int month = rightNow.get(Calendar.MONTH);
         return getWeeksOfMonth(year, month);
     }
 
-    public static List getWeeksOfMonth(int year, int month) {
+    public static List<Integer> getWeeksOfMonth(int year, int month) {
         Calendar rightNow = Calendar.getInstance();
         rightNow.set(Calendar.YEAR, year);
         rightNow.set(Calendar.MONTH, month);
@@ -141,6 +137,7 @@ public class DateUtil {
         List<Integer> weeks = new ArrayList<Integer>();
         int ndays = rightNow.getActualMaximum(Calendar.DAY_OF_MONTH);
         int oldWeek = 0;
+
         for (int i = 0; i < ndays; i++) {
             int newWeek = rightNow.get(Calendar.WEEK_OF_YEAR);
             if (oldWeek != newWeek) {
@@ -154,7 +151,7 @@ public class DateUtil {
     }
 
     public static Date getDate(int year, int month, int day) {
-        Calendar mycal = new GregorianCalendar(year, month - 1, day);
-        return mycal.getTime();
+        Calendar calendar = new GregorianCalendar(year, month - 1, day);
+        return calendar.getTime();
     }
 }

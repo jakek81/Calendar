@@ -1,75 +1,48 @@
 package com.gensitive.controller;
 
-import com.gensitive.dao.NoteDAO;
+import com.gensitive.dto.DateDto;
+import com.gensitive.dto.NoteDto;
+import com.gensitive.model.MonthNotes;
 import com.gensitive.model.Note;
-import com.gensitive.model.NoteJson;
-import com.gensitive.utils.DateUtil;
-import java.util.List;
+import com.gensitive.service.CalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 public class CalendarController {
 
     @Autowired
-    private NoteDAO noteDAO;
+    private CalendarService calendarService;
 
-    @RequestMapping("/rest")
+    @GetMapping("/monthNotes")
     @ResponseBody
-    public NoteJson rest(@RequestParam(value = "month", defaultValue = "current") String day) {
-        List<Note> noteList;
-
-        if (day.equals("current")) {
-            try {
-                noteList = noteDAO.findByNoteDateBetween(DateUtil.getFirstDateInThisMonth(), DateUtil.getLastDateInThisMonth());
-            } catch (Exception ex) {
-                System.out.println("Exeption: " + ex);
-                return null;
-            }
-            return new NoteJson(noteList,
-                    DateUtil.getWeeksOfThisMonth(),
-                    DateUtil.getWeekdayOfFirstDayInThisMonth(),
-                    DateUtil.getLastDayInThisMonth(),
-                    DateUtil.getThisMonthName(),
-                    DateUtil.getMonth(),
-                    DateUtil.getYear());
+    public MonthNotes monthNotes(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month) {
+        if (year == null || month == null) {
+            return calendarService.getCurrentMonthNotes();
         } else {
-            int year;
-            int month;
-
-            if (day.length() != 6) {
-                return null;
-            }
-
-            try {
-                year = Integer.parseInt(day.substring(0, 4));
-                month = Integer.parseInt(day.substring(4, 6));
-            } catch (Exception ex) {
-                System.out.println("Exeption: " + ex);
-                return null;
-            }
-
-            if (Math.abs(year - 2016) > 20 || month < 1 || month > 12) {
-                return null;
-            }
-            month--;
-
-            try {
-                noteList = noteDAO.findByNoteDateBetween(DateUtil.getFirstDateInMonth(year, month), DateUtil.getLastDateInMonth(year, month));
-            } catch (Exception ex) {
-                System.out.println("Exeption: " + ex);
-                return null;
-            }
-            return new NoteJson(noteList,
-                    DateUtil.getWeeksOfMonth(year, month),
-                    DateUtil.getWeekdayOfFirstDayInMonth(year, month),
-                    DateUtil.getLastDayInMonth(year, month),
-                    DateUtil.getMonthName(month),
-                    month + 1,
-                    year);
+            return calendarService.getMonthNotesInTimePeriod(year, month);
         }
+    }
+
+    @GetMapping("/notes")
+    @ResponseBody
+    public List<NoteDto> getNotes(@RequestBody DateDto dateDto) {
+        return calendarService.getNotes(dateDto.getFromDate(), dateDto.getToDate());
+    }
+
+    @PostMapping("/notes")
+    public ResponseEntity createNote(@RequestBody NoteDto noteDto) {
+        calendarService.createNote(noteDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/notes")
+    public void deleteNote(@RequestBody NoteDto noteDto) {
+        calendarService.deleteNotes(noteDto);
     }
 }

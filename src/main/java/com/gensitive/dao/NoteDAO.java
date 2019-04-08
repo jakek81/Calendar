@@ -8,10 +8,15 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface NoteDAO extends CrudRepository<Note, Long> {
 
-    public List<Note> findByNoteDateBetween(Date fromDate, Date toDate);
-
     public Note findById(int id);
 
-    public Note findByNoteDate(Date noteDate);
+    public List<Note> findByNoteDateBetween(Date fromDate, Date toDate);
 
+    public List<Note> findByNoteDate(Date noteDate);
+
+    public List<Note> findByNoteAndNoteDate(String note, Date noteDate);
+
+    public Note save(Note note);
+
+    public void delete(Note note);
 }
