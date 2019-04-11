@@ -1,10 +1,7 @@
 package com.gensitive.utils;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class DateUtil {
 
@@ -86,33 +83,8 @@ public class DateUtil {
     }
 
     public static String getMonthName(int month) {
-        switch (month + 1) {
-            case 1:
-                return "Tammikuu";
-            case 2:
-                return "Helmikuu";
-            case 3:
-                return "Maaliskuu";
-            case 4:
-                return "Huhtikuu";
-            case 5:
-                return "Toukokuu";
-            case 6:
-                return "Kesäkuu";
-            case 7:
-                return "Heinäkuu";
-            case 8:
-                return "Elokuu";
-            case 9:
-                return "Syyskuu";
-            case 10:
-                return "Lokakuu";
-            case 11:
-                return "Marraskuu";
-            case 12:
-                return "Joulukuu";
-        }
-        return null;
+        Calendar calendar = new GregorianCalendar(2019, month, 1);
+        return calendar.getDisplayName(Calendar.MONTH, Calendar.LONG_STANDALONE, new Locale("fi"));
     }
 
     public static String getThisMonthName() {

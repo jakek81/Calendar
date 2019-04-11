@@ -32,7 +32,7 @@ public class DefaultCalendarService implements CalendarService {
     }
 
     @Override
-    public MonthNotes getMonthNotesInTimePeriod(Integer year, Integer month) {
+    public MonthNotes getMonthNotesInTimePeriod(int year, int month) {
         month--;
 
         return new MonthNotes(noteDAO.findByNoteDateBetween(DateUtil.getFirstDateInMonth(year, month), DateUtil.getLastDateInMonth(year, month)),

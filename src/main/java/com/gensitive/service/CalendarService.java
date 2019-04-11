@@ -11,7 +11,7 @@ public interface CalendarService {
 
     MonthNotes getCurrentMonthNotes();
 
-    MonthNotes getMonthNotesInTimePeriod(Integer year, Integer month);
+    MonthNotes getMonthNotesInTimePeriod(int year, int month);
 
     void deleteNotes(NoteDto noteDto);
 
