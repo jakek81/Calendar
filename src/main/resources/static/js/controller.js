@@ -1,5 +1,5 @@
 app.controller('controller', function ($scope, $http) {
-    $http.get("/monthNotes")
+    $http.get("/currentMonthNotes")
             .then(function (response) {
                 if (isValidResponse(response)) {
                     $scope = createCalendar($scope, response);

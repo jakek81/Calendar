@@ -47,11 +47,14 @@ public class CalendarApplicationTests {
         DateDto dateDto = new DateDto(date, date);
         String dateJson = gson.toJson(dateDto);
 
+        String test = date.toString();
+
         this.mockMvc.perform(post("/notes")
                 .contentType(MediaType.APPLICATION_JSON).content(noteJson));
 
         this.mockMvc.perform(get("/notes")
-                .contentType(MediaType.APPLICATION_JSON).content(dateJson))
+                .param("fromDate", date.toString())
+                .param("toDate", date.toString()))
                 .andExpect(jsonPath("$[0].note")
                 .value("Jouluaatto"));
 
@@ -60,7 +63,8 @@ public class CalendarApplicationTests {
 
 
         this.mockMvc.perform(get("/notes")
-                .contentType(MediaType.APPLICATION_JSON).content(dateJson))
+                .param("fromDate", date.toString())
+                .param("toDate", date.toString()))
                 .andExpect(jsonPath("$[0].note")
                 .doesNotExist());
 

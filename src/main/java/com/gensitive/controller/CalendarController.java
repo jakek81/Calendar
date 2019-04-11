@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -21,18 +21,20 @@ public class CalendarController {
 
     @GetMapping("/monthNotes")
     @ResponseBody
-    public MonthNotes monthNotes(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month) {
-        if (year == null || month == null) {
-            return calendarService.getCurrentMonthNotes();
-        } else {
-            return calendarService.getMonthNotesInTimePeriod(year, month);
-        }
+    public MonthNotes monthNotes(@RequestParam int year, @RequestParam int month) {
+        return calendarService.getMonthNotesInTimePeriod(year, month);
+    }
+
+    @GetMapping("/currentMonthNotes")
+    @ResponseBody
+    public MonthNotes currentMonthNotes() {
+        return calendarService.getCurrentMonthNotes();
     }
 
     @GetMapping("/notes")
     @ResponseBody
-    public List<NoteDto> getNotes(@RequestBody DateDto dateDto) {
-        return calendarService.getNotes(dateDto.getFromDate(), dateDto.getToDate());
+    public List<NoteDto> getNotes(@RequestParam Date fromDate, @RequestParam Date toDate) {
+        return calendarService.getNotes(fromDate, toDate);
     }
 
     @PostMapping("/notes")
